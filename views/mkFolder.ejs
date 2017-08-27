@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>相册</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel = "Shortcut Icon" href=/favicon.ico>
+    <style>
+        .row h4{
+            text-align:center;
+        }
+        .folder{
+            text-align:center;
+        }
+        .folder input{
+            width: 100px;
+            text-align:center;
+        }
+        .folder input[type=palceholder]{
+            color:#000;
+            font-size:14px;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">小小相册</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/">全部相册<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="/mkFolder">新建相册</a></li>
+                <li><a href="/up">上传</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="row">
+        <%for(var i=0;i<albums.length;i++){%>
+        <div class="col-xs-6 col-md-3">
+            <a href="<%=albums[i]%>" class="thumbnail">
+                <img src="img/wjj.jpg" alt="..">
+            </a>
+            <h4><%=albums[i]%></h4>
+        </div>
+        <%}%>
+        <form action="#" method="post" enctype="multipart/form-data">
+        <div class="col-xs-6 col-md-3 folder">
+            <a href="#" class="thumbnail">
+                <img src="img/wjj.jpg" alt="..">
+            </a>
+            <h4><input type="text" naem="folderName" placeholder="新建文件夹"/></h4>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(".folder input").focus(function(){
+        $(this).attr("placeholder","");
+    });
+
+
+    $(".folder input").blur(function(){
+        var val = $(".folder input").val();
+        if(val == "") {
+            $(this).attr("placeholder", "新建文件夹");
+        }else{
+            $(this).attr({"placeholder":val}).css({"border":"none"});
+        }
+        $.post("/mkFolder",
+                {
+                    folderName:val
+                });
+    });
+
+</script>
+</body>
+</html>
